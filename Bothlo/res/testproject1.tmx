@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
+<map version="1.0" orientation="orthogonal" width="16" height="20" tilewidth="30" tileheight="30">
+ <properties>
+  <property name="blocked" value=""/>
+ </properties>
+ <tileset firstgid="1" name="pubdlcnt.php" tilewidth="32" tileheight="32">
+  <image source="pubdlcnt.php.png" width="2048" height="1536"/>
+ </tileset>
+ <layer name="traps" width="16" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMgpEJAGWdw/wABQAA
+  </data>
+ </layer>
+ <layer name="base" width="16" height="20" opacity="0.77">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC22UUQ7EIAhEmywXq/0GdY+3p902gexz1g+iFQZwHOp2HHGb39ZhdfZ5/XwjjfET68xzx159tQ74Im2I8ax6mhvczBhHLd5D+6794z8lb+UJ1CWG/b8Tfwl3xAdqddSons+0XY/kMGzlqXI1OeN9lfNu65uMxO/eNxDnEkPuW/bvUqNiXPJqjy35axvuta8ptR31VStTahWO9yn+qRfql98OPH1NcupshK28U0+lv2b/+mG+bquGqIMLd9CZ5Bxzbpj/slWPyoG+BTnlTE75ZozOOHlRPP8V/BeQQ9WjC07jyOUA5rEvDyfpLQAFAAA=
+  </data>
+ </layer>
+ <layer name="background" width="16" height="20">
+  <properties>
+   <property name="&quot;blocked&quot;" value="true"/>
+   <property name="blocked" value="true"/>
+   <property name="id" value="2"/>
+   <property name="index" value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC61SSQ6AIAxExau7if9/l1dwe4RKxKRioQhOQggD005bBs7Y4Fhj6r5XwLibhzv1Fp5deLzN3/d9hutqhF85HsMX06mfz5XoGJUlt82D0kug/woBtAWRG/Ow/FC/BDEoD2Z/VP83fu0hPRBau4O/g83Zxm+GNiQ/7F8bUH/s/O//13jOH3oUkfWbWmr+nafHGNg8lAh/ALrk1C4ABQAA
+  </data>
+ </layer>
+ <layer name="forground" width="16" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoC1w4iZfrzM3BFOinxIAcrsjhWY4UsEMSsOAXPsp0QvTTwkA2U1J+oG5gVJ3UBr+5OqnNP1RI/ypkf4HMwAAgX9WvwAFAAA=
+  </data>
+ </layer>
+</map>

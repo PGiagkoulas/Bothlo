@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="16" height="20" tilewidth="30" tileheight="30">
+ <tileset firstgid="1" name="pubdlcnt.php" tilewidth="32" tileheight="32">
+  <image source="pubdlcnt.php.png" width="2048" height="1536"/>
+ </tileset>
+ <layer name="traps" width="16" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKRCQAFAAAB
+  </data>
+ </layer>
+ <layer name="base" width="16" height="20" opacity="0.77">
+  <data encoding="base64" compression="zlib">
+   eJxtlFEOxCAIRJusF6v9BuV6e9ptE0ifs34QrTCA41Brx+G32W0DVmffz+ubaYwPrJHnhr36ap3wedoU41n1FBtcZIyhFu+hfdf+8Z+St/I46hLD/iPxl3BHvKPWQI3q+Uzb9UgOva08Va4uZ7yvcj7a+iYz8bv3dcSZxJD7nv2b1KgYk7zaY0/++oZ77SuktqG+aiWkVuF4n+KfeqF++W3A09clp86Gt5V36qn019u/fphvtFVD1MGFO+hMco45N8x/tVWPyoG+BTnlTIZ8M0ZnnLwonv8K/gvIoerRBKdx5HIC89gPyNdm1w==
+  </data>
+ </layer>
+ <layer name="background" width="16" height="20">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJyTYGFgkMCD7zDhlwcBbGIwcWSakFpkPj6AopYVU16UGbs+QRzijFjMIBXAzBDAYQct3QDTy0fAblxuoIb/YYCQG/CFDzXCAARwhTGt4h9ZvzCZ/qeGG4SIjH90N1Ji93+0PEso/kWIdCMMtBJZJmBzA0gvDIMAPxa7ASRzCOI=
+  </data>
+ </layer>
+ <layer name="backround2" width="16" height="20" opacity="0.52">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBjZ4BULkGAlX/9zoP4XLJTpf0aB/qcU6AWBl1Tw/zMKzACF/2sWaDyQAZ5C9f4nU/9rCvTC7Kck/F5RIf4pSX9PKfT/UAcAuRcWcw==
+  </data>
+ </layer>
+ <layer name="forground" width="16" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAtcOImX68zNwRTop8SAHK7I4VmOFLBDErDgFz7KdEL008JANlNSfqBuYFSd1Aa/uTqpzT9USP8qZH+BzMAAGYyCCM=
+  </data>
+ </layer>
+</map>
