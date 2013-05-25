@@ -21,7 +21,10 @@ public class GameState extends BasicGameState {
 	private Animation Rogue , upR ,downR,leftR,rightR;
 	private Animation Cleric , upC ,downC,leftC,rightC;
 	
+	private Image inGameMenu;
+	
 	private boolean[][] blocked;
+	private boolean quit = false;
 	
 	private static final int SIZE = 32;
 	
@@ -35,6 +38,8 @@ public class GameState extends BasicGameState {
 		//changing resolution
 		//AppGameContainer apgc = (AppGameContainer)gc;
 		//apgc.setDisplayMode(482, 600, false);
+		
+		inGameMenu = new Image("res/black-1.2.jpg");
 		
 		
 		Image [] movementWarrior = {new Image("res/warrior.png"),new Image("res/warrior.png")};
@@ -89,20 +94,31 @@ public class GameState extends BasicGameState {
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
+	public void render(GameContainer arg0, StateBasedGame sbg, Graphics g) throws SlickException {
 		grassMap.render(0,0);
 		Warrior.draw((int)x, (int)y);
 		Mage.draw((int)x-30, (int)y+30);
 		Rogue.draw((int)x, (int)y+30);
 		Cleric.draw((int)x+30, (int)y+30);
 		
-		
+		 //when they press escape
+	      if(quit==true){
+	    	 
+	    	 g.drawString("Resume (R)", 250, 100);
+	         g.drawString("Main Menu (M)", 250, 150);
+	         g.drawString("Quit Game (Q)", 250, 200);
+	         
+	         if(quit==false){
+	            g.clear();
+	         }
+	      }
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame arg1, int delta) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 		float fdelta=delta*0.1f;
+	if(quit == false){ 										//if quit is false move
 		if (input.isKeyDown(Input.KEY_UP))
 		{
 			Warrior = upW;
@@ -172,6 +188,33 @@ public class GameState extends BasicGameState {
 				x += fdelta;
 			}
 		}	
+		
+	}
+		
+		 //escape
+	      if(input.isKeyDown(Input.KEY_ESCAPE)){
+	         quit = true;
+	      }      
+	      
+	      //when they hit escape
+	      if(quit==true){
+	         if(input.isKeyDown(Input.KEY_R)){
+	            quit = false;
+	         }
+	         if(input.isKeyDown(Input.KEY_M)){
+	        	 AppGameContainer apgc = (AppGameContainer)gc;
+				 apgc.setDisplayMode(900, 384, false);
+	        	 sbg.enterState(0);
+	            try{
+	               Thread.sleep(250);
+	            }catch(InterruptedException e){
+	               e.printStackTrace();
+	            }
+	         }
+	         if(input.isKeyDown(Input.KEY_Q)){
+	            System.exit(0);
+	         }
+	      }
 	}
 	
 	private boolean isBlocked(float x, float y)
