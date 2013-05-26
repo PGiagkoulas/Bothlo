@@ -39,7 +39,7 @@ public class GameState extends BasicGameState {
 		//AppGameContainer apgc = (AppGameContainer)gc;
 		//apgc.setDisplayMode(482, 600, false);
 		
-		inGameMenu = new Image("res/black-1.2.jpg");
+		inGameMenu = new Image("res/inGameMenu.png");
 		
 		
 		Image [] movementWarrior = {new Image("res/warrior.png"),new Image("res/warrior.png")};
@@ -103,11 +103,7 @@ public class GameState extends BasicGameState {
 		
 		 //when they press escape
 	      if(quit==true){
-	    	 
-	    	 g.drawString("Resume (R)", 250, 100);
-	         g.drawString("Main Menu (M)", 250, 150);
-	         g.drawString("Quit Game (Q)", 250, 200);
-	         
+	    	 inGameMenu.drawCentered(250, 300);	
 	         if(quit==false){
 	            g.clear();
 	         }
