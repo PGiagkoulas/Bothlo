@@ -12,17 +12,18 @@ public class Hero extends Character{
 	private double lifeModifier;
 	private double damageModifier;
 	private boolean selected = false;
-	
+	private static Hero h;
+
 	//constructor
-	public Hero(String name, int attribute, int life, int movement, int range,
+	private Hero(String name, int attribute, int life, int movement, int range,
 			int damage, int armor, int positionX, int positionY, int level,
 			int special, String abilityName, int abilityAttribute, int maxLife,
 			int maxSpecial, int equippedItemAttribute, double lifeModifier,
 			double damageModifier) {
-		
+
 		super(name, attribute, life, movement, range, damage, armor, positionX,
 				positionY, level);
-		
+
 		this.special = special;
 		this.abilityName = abilityName;
 		this.abilityAttribute = abilityAttribute;
@@ -32,7 +33,25 @@ public class Hero extends Character{
 		this.lifeModifier = lifeModifier;
 		this.damageModifier = damageModifier;
 	}
+	//summoner!
+	public static Hero createHeroInstance(String name, int attribute, int life, int movement, int range,
+			int damage, int armor, int positionX, int positionY, int level,
+			int special, String abilityName, int abilityAttribute, int maxLife,
+			int maxSpecial, int equippedItemAttribute, double lifeModifier,
+			double damageModifier){
+
+		 h = new Hero( name,  attribute,  life,  movement,  range,
+				damage,  armor,  positionX,  positionY,  level,
+				special,  abilityName,  abilityAttribute,  maxLife,
+				maxSpecial,  equippedItemAttribute,  lifeModifier,
+				damageModifier);
+		return h;
+	}
 	
+	public static Hero getHeroInstance(){
+		return h;
+	}
+
 	//selects character
 	public void selectChar(){
 		selected = true;
@@ -42,17 +61,17 @@ public class Hero extends Character{
 	public void deselectChar(){
 		selected = false;
 	}
-	
+
 	//sets new rune attribute
 	public void equipRune(Rune rune){
 		changeStats(rune.getDamageBonus(),rune.getArmorBonus());
-		
+
 		equippedRune = rune.attribute;
 	}
-	
+
 	//changes stats
 	private void changeStats(int dmgB, int armB){
-		
+
 		//add the bonus difference (new bonus - previous bonus)
 		damage += dmgB - runeDmg;
 		armor += armB - runeArm;
@@ -61,7 +80,7 @@ public class Hero extends Character{
 		runeArm = armB;
 	}
 
-	
+
 	//changes Life
 	public void changeLife(int change){
 		life -= change;
@@ -72,7 +91,7 @@ public class Hero extends Character{
 		stat += level*modifier;
 		return stat;
 	}
-	
+
 	//level-up method
 	public void levelUp(){
 		level++;
@@ -80,8 +99,8 @@ public class Hero extends Character{
 		damage = modify(damage, level, damageModifier);
 		life = maxLife;//restore hero's life to maximun
 	}
-	
-	
+
+
 	//getters&setters
 	public int getSpecial() {
 		return special;
@@ -170,7 +189,6 @@ public class Hero extends Character{
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
-	
+
 
 }
- 

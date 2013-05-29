@@ -13,6 +13,11 @@ public class Game extends StateBasedGame  {
 	public Game(String gamename){
 		super(gamename);
 		this.addState(new MenuGUI(menu));
+		Hero warrior = Hero.createHeroInstance("warrior", 1, 120, 3, 1,
+				10, 8, 0, 0, 1, 
+				3, "Shout", 5, 120,
+				3, -1, 0.5, 
+				0.2);
 		this.addState(new GameState(play));
 	}
 	

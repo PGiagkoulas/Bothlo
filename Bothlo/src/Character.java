@@ -25,7 +25,49 @@ public class Character extends Encounter{
 		this.positionY = positionY;
 		this.level = level;
 	}
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public int getMovement() {
+		return movement;
+	}
+	public void setMovement(int movement) {
+		this.movement = movement;
+	}
+	public int getRange() {
+		return range;
+	}
+	public void setRange(int range) {
+		this.range = range;
+	}
+	public int getArmor() {
+		return armor;
+	}
+	public void setArmor(int armor) {
+		this.armor = armor;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	//getters and setters for positions
+	public void setPositionX(int posX){
+		this.positionX = posX;
+	}
+	public void setPositionY(int posY){
+		this.positionY = posY;
+	}
+	public int getPositionX(){
+		return positionX;
+	}
 	
-	
+	public int getPositionY(){
+		return positionY;
+	}
 
 }
