@@ -9,10 +9,11 @@ public class Hero extends Character{
 	private int equippedRune;
 	private int runeDmg = 0;
 	private int runeArm = 0;
-	private double lifeModifier;
-	private double damageModifier;
+	
 	private boolean selected = false;
-	private static Hero h;
+	private static Hero hero;
+	private static Hero bothlo;
+	private static int created = 0; //see if hero was created, later use for number of heros?
 
 	//constructor
 	private Hero(String name, int attribute, int life, int movement, int range,
@@ -22,7 +23,8 @@ public class Hero extends Character{
 			double damageModifier) {
 
 		super(name, attribute, life, movement, range, damage, armor, positionX,
-				positionY, level);
+				positionY, level, lifeModifier,
+				damageModifier);
 
 		this.special = special;
 		this.abilityName = abilityName;
@@ -30,8 +32,9 @@ public class Hero extends Character{
 		this.maxLife = maxLife;
 		this.maxSpecial = maxSpecial;
 		this.equippedRune = equippedItemAttribute;
-		this.lifeModifier = lifeModifier;
-		this.damageModifier = damageModifier;
+		
+
+
 	}
 	//summoner!
 	public static Hero createHeroInstance(String name, int attribute, int life, int movement, int range,
@@ -40,16 +43,34 @@ public class Hero extends Character{
 			int maxSpecial, int equippedItemAttribute, double lifeModifier,
 			double damageModifier){
 
-		 h = new Hero( name,  attribute,  life,  movement,  range,
+		if(created == 0){
+			hero = new Hero( name,  attribute,  life,  movement,  range,
+					damage,  armor,  positionX,  positionY,  level,
+					special,  abilityName,  abilityAttribute,  maxLife,
+					maxSpecial,  equippedItemAttribute,  lifeModifier,
+					damageModifier);
+			created ++;
+			return hero;
+		}
+
+		bothlo = new Hero( name,  attribute,  life,  movement,  range,
 				damage,  armor,  positionX,  positionY,  level,
 				special,  abilityName,  abilityAttribute,  maxLife,
 				maxSpecial,  equippedItemAttribute,  lifeModifier,
 				damageModifier);
-		return h;
+
+		created ++;
+		return bothlo;
+
+
+	}
+
+	public static Hero getHeroInstance(){
+		return hero;
 	}
 	
-	public static Hero getHeroInstance(){
-		return h;
+	public static Hero getBothloInstance(){
+		return bothlo;
 	}
 
 	//selects character
@@ -97,7 +118,7 @@ public class Hero extends Character{
 		level++;
 		maxLife = modify(maxLife, level, lifeModifier);
 		damage = modify(damage, level, damageModifier);
-		life = maxLife;//restore hero's life to maximun
+		life = maxLife;//restore hero's life to maximum
 	}
 
 

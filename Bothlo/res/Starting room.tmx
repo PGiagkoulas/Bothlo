@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="16" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="DungeonCrawl_ProjectUtumnoTileset" tilewidth="32" tileheight="32">
+  <image source="BothloTryOvr9000/src/DungeonCrawl_ProjectUtumnoTileset.png" width="2048" height="1536"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="16" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC12Uaw7DIAyDJ/VkBFrOVehjxx5I/iSPH1FDIHZiQsv2+aRh+7B32GmWFZ/fY9h32DXskf8qd/ptWNHZy+Kh74xX4R3yk/aL+JIwd+ML5SbFXn2zrMi8To9P/xafx7qwqeWUH9rbrQ56Cp0N9UttK/ZhX2LNdPZaQ/Gq9crbtZ9sv0obctAsiS+Jz7WEE91vq+8xjbJxwL3G/C7DOMLWX/PhPExvrymblt2w0LXaWfQEN7b/uerb/4wxr9xPGJafYw3/vmCfwsK/DQ/NizSnTuoHm3dTbI2+Xbm+j07r3FTrHWuWdwuLGh/rk5p5U9xnU25RzN/VpRg45K7/COJo4e+WPpr1DR/zUVWzvzNmlPvgXFl4mZlsuGjr8+H3Ou0HDHG0/gAFAAA=
+  </data>
+ </layer>
+ <layer name="traps" width="16" height="20">
+  <properties>
+   <property name="trap" value="true"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgIB90M+Lnk6KXUrvxiZPrTpA6GCbVLaS4jxJ11DSHWnZSC+CKN0rSHTXcQapacvRTkn4GIh5JtZOQP8kxkxwAAKz8pCgABQAA
+  </data>
+ </layer>
+ <layer name="portal" width="16" height="20">
+  <properties>
+   <property name="warp" value="true"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgwA0uMuORHAWjYBSMgiEOAMfUvDcABQAA
+  </data>
+ </layer>
+</map>

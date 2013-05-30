@@ -22,19 +22,25 @@ public class GameState extends BasicGameState {
 	private Animation Rogue , upR ,downR,leftR,rightR;
 	private Animation Cleric , upC ,downC,leftC,rightC;
 	 */
-	private Animation Mage, upM ,downM,leftM,rightM;
+	private Animation Bothlo, upM ,downM,leftM,rightM;
 
 	private Image inGameMenu;
 
-	private boolean[][] blocked;
+	private boolean[][] traps;
+	private boolean[][] warps;
 	private boolean quit = false;	//bool for in-game menu
 	private boolean attack = false; //bool for attack mode
+	private boolean enemyTurn = false; //bool for enemy turn
+	private boolean tookDamage = false; //bool for trap damage taken
 
 	private static final int SIZE = 32;
 
 	private float x = 240f, y = 569f;
 
 	private float k = 240f, l = 32f;
+
+	private Point enemyPos = new Point((int)k,(int) l);
+
 
 	private float heroMovement = 0;
 	private int enemyMovement = 0;
@@ -53,7 +59,7 @@ public class GameState extends BasicGameState {
 
 		Image [] movementWarrior = {new Image("res/warrior.png"),new Image("res/warrior.png")};
 
-		Image [] movementMage = {new Image("res/Mage.png"), new Image("res/Mage.png")};
+		Image [] movementBothlo = {new Image("res/Bothlo.png"), new Image("res/Bothlo.png")};
 		/*
         Image [] movementRogue = {new Image("res/rogue.png"), new Image("res/rogue.png")};
         Image [] movementCleric = {new Image("res/cleric.png"),new Image("res/cleric.png")};
@@ -63,14 +69,14 @@ public class GameState extends BasicGameState {
 
 		upW = new Animation(movementWarrior, duration, false);
 
-		upM = new Animation(movementMage, duration, false);
+		upM = new Animation(movementBothlo, duration, false);
 		/*
         upR = new Animation(movementRogue, duration,false );
         upC = new Animation(movementCleric, duration, false);
 		 */
 		leftW = new Animation(movementWarrior, duration, false);
 
-		leftM = new Animation(movementMage, duration, false);
+		leftM = new Animation(movementBothlo, duration, false);
 		/*
         leftR = new Animation(movementCleric, duration, false);     
         leftC = new Animation(movementCleric, duration, false);
@@ -80,26 +86,28 @@ public class GameState extends BasicGameState {
 
 		rightW = new Animation(movementWarrior, duration, false);
 
-		rightM = new Animation(movementMage, duration, false);
+		rightM = new Animation(movementBothlo, duration, false);
 		/*
         rightR = new Animation(movementRogue, duration, false);
         rightC = new Animation(movementCleric, duration, false);
 		 */
 		downW = new Animation(movementWarrior, duration, false);
 
-		downM = new Animation(movementMage, duration, false);
+		downM = new Animation(movementBothlo, duration, false);
 		/*
         downR = new Animation(movementRogue, duration, false);
         downC = new Animation(movementCleric, duration, false);
 		 */
 		Warrior = downW;
-		Mage = downM;
+		Bothlo = downM;
 		/*
         Rogue = downR;
 
         Cleric = downC;
 		 */
-		blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
+		warps = new boolean[grassMap.getWidth()][grassMap.getHeight()];
+		traps = new boolean[grassMap.getWidth()][grassMap.getHeight()];
+
 		String Layername = grassMap.getLayerProperty(1, "trap", "true");
 
 		for (int xAxis=0;xAxis<grassMap.getWidth(); xAxis++)
@@ -108,7 +116,7 @@ public class GameState extends BasicGameState {
 			{
 				int tileID = grassMap.getTileId(xAxis, yAxis,1);
 				if (tileID!= 0){
-					blocked[xAxis][yAxis] = true;
+					traps[xAxis][yAxis] = true;
 
 				}
 
@@ -120,12 +128,13 @@ public class GameState extends BasicGameState {
 			{
 				int tileID = grassMap.getTileId(xAxis, yAxis,2);
 				if (tileID!= 0){
-					blocked[xAxis][yAxis] = true;
+					warps[xAxis][yAxis] = true;
 
 				}
 
 			}
 		}
+		
 
 
 	}
@@ -135,7 +144,7 @@ public class GameState extends BasicGameState {
 		grassMap.render(0,0);
 		Warrior.draw((int)x, (int)y);
 
-		Mage.draw((int)k, (int)l);
+		Bothlo.draw((int)enemyPos.x, (int)enemyPos.y);
 		/*
 		Rogue.draw((int)x, (int)y+30);
 		Cleric.draw((int)x+30, (int)y+30);
@@ -153,14 +162,15 @@ public class GameState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 		float fdelta=delta*0.1f;
-		if(quit == false && attack == false){ 						//if quit is false move
+		//if quit is false move
+		if(quit == false && attack == false && enemyTurn == false){ 						
 
 			//checking maximum movement reached
 			if(heroMovement <= Hero.getHeroInstance().getMovement()*SIZE){
 				if (input.isKeyDown(Input.KEY_UP))
 				{
 					Warrior = upW;
-					Mage = upM;
+					Bothlo = upM;
 					/*
 			Rogue = upR;
 
@@ -168,99 +178,98 @@ public class GameState extends BasicGameState {
 					 */
 					if(y <0)
 						y=0;
-					if (!(isBlocked(x, y- fdelta) || isBlocked(x+SIZE-1, y - fdelta)))
+					Warrior.update(delta);
+					Bothlo.update(delta);
+					
+					// The lower the delta the slowest the sprite will animate.
+					y -= fdelta;
+					heroMovement += fdelta;
+					if ((isTrap(x, y- fdelta) || isTrap(x+SIZE-1, y - fdelta)))
 					{
-						Warrior.update(delta);
-						Mage.update(delta);
-						/*
-				Rogue.update(delta);
-
-				Cleric.update(delta);
-						 */
-						// The lower the delta the slowest the sprite will animate.
-						y -= fdelta;
-						heroMovement += fdelta;
+						if(!tookDamage){
+						Hero.getHeroInstance().changeLife(3);
+						System.out.println(Hero.getHeroInstance().getLife());
+						tookDamage = true;
+						}
 					}
 				}
 				else if (input.isKeyDown(Input.KEY_DOWN))
 				{
 					Warrior = downW;
-					Mage = downM;
-					/*
-			Rogue =downR;
-
-			Cleric = downC;
-					 */
+					Bothlo = downM;
+					
 
 					//character limit on back movement
 					if (y>569)
 						y=569;
 
-					if (!(isBlocked(x, y + SIZE + fdelta) || isBlocked(x+SIZE-1, y + SIZE + fdelta)))
+					Warrior.update(delta);
+					Bothlo.update(delta);
+					
+					y += fdelta;
+					heroMovement += fdelta;
+					
+					if ((isTrap(x, y + SIZE + fdelta) || isTrap(x+SIZE-1, y + SIZE + fdelta)))
 					{
-						Warrior.update(delta);
-						Mage.update(delta);
-						/*
-				Rogue.update(delta);
-
-				Cleric.update(delta);
-						 */
-						y += fdelta;
-						heroMovement += fdelta;
+						if(!tookDamage){
+							Hero.getHeroInstance().changeLife(3);
+							System.out.println(Hero.getHeroInstance().getLife());
+							tookDamage = true;
+							}
 					}
 				}
 				else if (input.isKeyDown(Input.KEY_LEFT))
 				{
 					Warrior = leftW;
-					Mage = leftM;
-					/*
-			Rogue = leftR;
-
-			Cleric = leftC;
-					 */
+					Bothlo = leftM;
+				
 
 					//character limit on left movement
 					if(x<0)
 						x=0;
-					if (!(isBlocked(x - fdelta, y) || isBlocked(x - fdelta, y+SIZE-1)))
+					
+					Warrior.update(delta);
+					Bothlo.update(delta);
+				
+					x -= fdelta;
+					heroMovement += fdelta;
+					
+					if ((isTrap(x - fdelta, y) || isTrap(x - fdelta, y+SIZE-1)))
 					{
-						Warrior.update(delta);
-						Mage.update(delta);
-						/*
-				Rogue.update(delta);
-
-				Cleric.update(delta);
-						 */
-						x -= fdelta;
-						heroMovement += fdelta;
+						if(!tookDamage){
+							Hero.getHeroInstance().changeLife(3);
+							System.out.println(Hero.getHeroInstance().getLife());
+							tookDamage = true;
+							}
 					}
 				}
 				else if (input.isKeyDown(Input.KEY_RIGHT))
 				{
 					Warrior = rightW;
-					Mage = rightM;
-					/*
-			Rogue = rightR;
-
-			Cleric = rightC;
-					 */
+					Bothlo = rightM;
+					
 
 					//character limit on right movement
 					if(x>452)
 						x=452;
-					if (!(isBlocked(x + SIZE + fdelta, y) || isBlocked(x + SIZE + fdelta, y+SIZE-1)))
+					
+					Warrior.update(delta);
+					Bothlo.update(delta);
+				
+					x += fdelta;
+					heroMovement += fdelta;
+					
+					if ((isTrap(x + SIZE + fdelta, y) || isTrap(x + SIZE + fdelta, y+SIZE-1)))
 					{
-						Warrior.update(delta);
-						Mage.update(delta);
-						/*
-				Rogue.update(delta);
-
-				Cleric.update(delta);
-						 */
-						x += fdelta;
-						heroMovement += fdelta;
+						if(!tookDamage){
+							Hero.getHeroInstance().changeLife(3);
+							System.out.println(Hero.getHeroInstance().getLife());
+							tookDamage = true;
+							}
 					}
+
 				}
+				enemyMovement = 0;
 
 			}
 
@@ -268,7 +277,7 @@ public class GameState extends BasicGameState {
 		//attack mode
 		if(input.isKeyDown(Input.KEY_A)){
 			attack = true;
-			System.out.println(Hero.getHeroInstance().getAbilityAttribute());
+			System.out.println("Currently in attack mode");
 
 		}
 		if(attack == true){
@@ -278,12 +287,73 @@ public class GameState extends BasicGameState {
 		}
 
 		//end turn mode
-		if(input.isKeyDown(Input.KEY_E)){
-			k += 0;
-			l +=  fdelta;
-			
-			heroMovement = 0;
+		if(input.isKeyPressed(Input.KEY_E)){			
+			enemyTurn = true;	
+			tookDamage = false;
+			heroMovement = 0;	
+			System.out.println("Currently in enemy turn");
 		}
+
+		if(enemyTurn == true){
+			//checking maximum movement for enemy 
+			float xdif;
+			float ydif;
+			if(enemyMovement<=4*SIZE)	{
+				//magic calculations!!
+				xdif = Math.abs(enemyPos.x - x);
+				ydif = Math.abs(enemyPos.y - y);
+				if ( xdif > ydif ) {
+					k = 2;
+					l = 1;
+					enemyMovement += k+l;
+				}
+				if ( ydif > xdif ) {
+					l = 2;
+					k = 1;
+					enemyMovement += k+l;
+				}
+				if ( xdif == 0 ) {
+					l = 3;
+					k = 0;
+					enemyMovement += k+l;
+				}
+				if ( ydif == 0 ) {
+					k = 3;
+					l = 0;
+					enemyMovement += k+l;
+				}
+				if ( xdif == ydif ) {
+					k = 1;
+					l = 1;
+					enemyMovement += k+l;
+				}
+				if ( enemyPos.x > x )
+					k*= -1;
+				if ( enemyPos.y > y )
+					l*=-1;
+				enemyPos.translate((int)k, (int)l);
+			}
+			//signal end of enemy turn when maximum movement reached
+			if(enemyMovement > 4*SIZE){
+				/*
+				 * if(xdif<=32 && ydif<=32){
+				 * 
+				 * }
+				 */
+				
+				enemyTurn = false;
+			}
+			
+			//delaying update for smoooooooooth movement
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
+		}
+
+
 
 
 
@@ -314,12 +384,18 @@ public class GameState extends BasicGameState {
 		}
 	}
 
-	private boolean isBlocked(float x, float y)
+	private boolean isWarp(float x, float y)
 	{
 		int xBlock = (int)x / SIZE;
 		int yBlock = (int)y / SIZE;
-		return blocked[xBlock][yBlock];
+		return warps[xBlock][yBlock];
 	}
+	private boolean isTrap(float x, float y)
+	{
+		int xBlock = (int)x / SIZE;
+		int yBlock = (int)y / SIZE;
+		return traps[xBlock][yBlock];
+		}
 
 
 	@Override

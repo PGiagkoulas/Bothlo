@@ -6,13 +6,16 @@ public class Character extends Encounter{
 	protected int range;
 	protected int damage;
 	protected int armor;
+	protected double lifeModifier;
+	protected double damageModifier;
 	protected int positionX;
 	protected int positionY;
 	protected int level;
 	
 	//constructor
 	public Character(String name, int attribute, int life, int movement, int range, int damage, int armor,
-			int positionX, int positionY, int level) {
+			int positionX, int positionY, int level,double lifeModifier,
+			double damageModifier) {
 		
 		super(name, attribute);
 		
@@ -24,6 +27,8 @@ public class Character extends Encounter{
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.level = level;
+		this.lifeModifier = lifeModifier;
+		this.damageModifier = damageModifier;
 	}
 	public int getLife() {
 		return life;
